@@ -1,8 +1,10 @@
 # OSM Split UF's
 
-![Disbral](https://www.grupodisbral.com.br/assets/img/footer-logo.png) -
-![FMR](https://www.grupodisbral.com.br/assets/img/2.png) -
-![ENAPA](https://www.grupodisbral.com.br/assets/img/3.png)
+<div align="center">
+    <img src="https://www.grupodisbral.com.br/assets/img/footer-logo.png" alt="Disbral" style="margin: 0 10px;" />
+    <img src="https://www.grupodisbral.com.br/assets/img/2.png" alt="FMR" style="margin: 0 10px;" />
+    <img src="https://www.grupodisbral.com.br/assets/img/3.png" alt="ENAPA" style="margin: 0 10px;" />
+</div>
 
 **Note** This project was developed by Disbral, through the Automation Control Center (CCA) department, to address memory overflow issues in Docker containers when deploying PGRouter with OSM data for the entire country. The adopted approach enables incremental and partitioned loading by federative unit (UF), ensuring lower memory consumption and making it feasible to obtain a router with the complete road network of the country.
 
