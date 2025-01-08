@@ -5,6 +5,8 @@
     <img src="https://www.grupodisbral.com.br/assets/img/2.png" alt="FMR" style="margin: 0 10px;" />
     <img src="https://www.grupodisbral.com.br/assets/img/3.png" alt="ENAPA" style="margin: 0 10px;" />
 </div>
+<hr/>
+<br>
 
 **Note** This project was developed by Distribuidora Brasileira de Asfalto (Disbral), through the Automation Control Center (CCA) department, to address memory overflow issues in Docker containers when deploying PGRouter with OSM data for the entire country. The adopted approach enables incremental and partitioned loading by federative unit (UF), ensuring lower memory consumption and making it feasible to obtain a router with the complete road network of the country.
 
