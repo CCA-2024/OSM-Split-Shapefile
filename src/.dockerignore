@@ -20,16 +20,6 @@
 **/*.*proj.user
 **/*.dbmdl
 **/*.jfm
-**/*.osm
-**/*.tar
-**/*.pbf
-**/*.geojson
-**/*.cpg
-**/*.dbf
-**/*.prj
-**/*.shp
-**/*.shx
-**/*.pdf
 **/bin
 **/charts
 **/docker-compose*

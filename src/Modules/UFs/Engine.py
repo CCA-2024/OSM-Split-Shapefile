@@ -61,7 +61,7 @@ class UFGeo:
 
     def simplify_geometry(self, gdf, tolerance=0.01):
         """Simplifica as geometrias de um GeoDataFrame."""
-        gdf.geometry = gdf.geometry.apply(lambda x: x.simplify(tolerance))
+        gdf.geometry = gdf.geometry.apply(lambda x: x.simplify(tolerance) if x.is_valid else x)
         return gdf
 
     def save_as_geojson(self, gdf):

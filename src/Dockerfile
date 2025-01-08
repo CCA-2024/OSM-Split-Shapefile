@@ -16,7 +16,10 @@ ENV PYTHONDONTWRITEBYTECODE=1
 # the application crashes without emitting any logs due to buffering.
 ENV PYTHONUNBUFFERED=1
 
+# Copy the source code into the container.
 WORKDIR /app
+# COPY Main.py Main.py
+# COPY requirements.txt requirements.txt
 
 # Create a non-privileged user that the app will run under.
 # See https://docs.docker.com/go/dockerfile-user-best-practices/
@@ -38,11 +41,15 @@ RUN --mount=type=cache,target=/root/.cache/pip \
     --mount=type=bind,source=requirements.txt,target=requirements.txt \
     python -m pip install -r requirements.txt
 
+# INSTALL OSMIUM FOR SPLIT PBF's FILE
+RUN apt update \
+&& apt list --upgradable \
+&& apt -f install \
+&& dpkg --configure -a \
+&& apt-get install -y osmium-tool
+
 # Switch to the non-privileged user to run the application.
 USER appuser
-
-# Copy the source code into the container.
-COPY . .
 
 # Run the application.
 CMD python Main.py
