@@ -47,7 +47,7 @@ RUN apt update \
 && apt-get install -y osmium-tool
 
 # Switch to the non-privileged user to run the application.
-USER appuser
+# USER appuser
 
 # Run the application.
 CMD python Main.py
