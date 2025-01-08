@@ -8,9 +8,12 @@ import re
 
 class UFGeo:
     def __init__(self):
-        self.base_path = 'MODULES'
+        self.base_path = 'Modules'
         self.module_path = 'UFs'
-
+        self.geojsons = os.path.join(self.base_path, self.module_path, 'GeoJsons', '*.geojson')
+        for path in glob(self.geojsons):
+            os.system(f"rm -f {path}")
+        
     @staticmethod
     def fechar_geometria(geometry):
         """
