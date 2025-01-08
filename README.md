@@ -1,9 +1,9 @@
 # OSM Split UF's
 
-<div align="center">
-    <img src="https://www.grupodisbral.com.br/assets/img/footer-logo.png" alt="Disbral" style="margin: 0 10px;" />
-    <img src="https://www.grupodisbral.com.br/assets/img/2.png" alt="FMR" style="margin: 0 10px;" />
-    <img src="https://www.grupodisbral.com.br/assets/img/3.png" alt="ENAPA" style="margin: 0 10px;" />
+<div align="center" style="background-color: #ebebeb;">
+    <img src="https://www.grupodisbral.com.br/assets/img/2.png"     alt="FMR"       style="margin: 0 10px; width: 160px" />
+    <img src="https://www.grupodisbral.com.br/assets/img/logo.png"  alt="Disbral"   style="margin: 0 10px; width: 270px" />
+    <img src="https://www.grupodisbral.com.br/assets/img/3.png"     alt="ENAPA"     style="margin: 0 10px; width: 200px" />
 </div>
 <hr/>
 <br>

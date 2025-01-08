@@ -18,8 +18,6 @@ ENV PYTHONUNBUFFERED=1
 
 # Copy the source code into the container.
 WORKDIR /app
-# COPY Main.py Main.py
-# COPY requirements.txt requirements.txt
 
 # Create a non-privileged user that the app will run under.
 # See https://docs.docker.com/go/dockerfile-user-best-practices/
