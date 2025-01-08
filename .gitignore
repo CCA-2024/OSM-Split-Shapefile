@@ -175,3 +175,10 @@ cython_debug/
 *.tar
 *.pbf
 *.zip
+*.geojson
+*.cpg
+*.dbf
+*.prj
+*.shp
+*.shx
+*.pdf
