@@ -20,9 +20,14 @@ class OSMsplit:
             os.makedirs(self.path_protobuf)
         if not os.path.exists(self.path_protobufs):
             os.makedirs(self.path_protobuf)
+            
         self.keys_reprocess = {}
         self.UFProcessor = UFGeo()
         self.PathGeoJsons = self.UFProcessor.execute()
+    
+        self.protobufs = os.path.join(self.path_protobuf, '*.pbf')
+        for path in glob(self.protobufs):
+            os.system(f"rm -f {path}")
     
     def Spliter(self, DF_GEOPANDAS, ncut: int = 1):
         """
