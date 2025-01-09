@@ -13,6 +13,7 @@
 
 ## 0° Step - ( Optional )
 - If you want to save the `*.osm` files in a different folder than the current project, update the `PATHSAVE` environment variable in the .env file.
+- Edit var in .env `TYPE_MAP_OSM` for type by use [`mapconfig.xml`, `mapconfig_for_bicycles.xml`, `mapconfig_for_cars.xml`, `mapconfig_for_pedestrian.xml`] default is `mapconfig.xml`
 
 ## 1° Step
  - Download your country osm grahp in [Geofabrik](https://download.geofabrik.de/)
