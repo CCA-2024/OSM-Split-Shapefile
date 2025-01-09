@@ -17,7 +17,7 @@ services:
       context: .
       dockerfile: Dockerfile
     volumes:
-      - data_protobuf:app/src/PROTOBUF/PROTOBUF
+      - data_protobuf:/app/src/PROTOBUF/PROTOBUF
       - data_osm:/app/src/OSMs
     command: >
       bash -c "rm -rf osm2pgrouting &&
