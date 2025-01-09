@@ -17,6 +17,8 @@ services:
       context: .
       dockerfile: Dockerfile
     volumes:
+      - data_protobuf: /app/src/PROTOBUF/PROTOBUF
+      - data_protobufs: /app/src/PROTOBUF/PROTOBUFs
       - ./.:/app/.:rw
     command: >
       bash -c "rm -rf osm2pgrouting &&
@@ -26,6 +28,10 @@ services:
                rm -rf osm2pgrouting &&
                mv temp osm2pgrouting &&
                python Main.py"
+
+volumes:
+  data_protobuf:
+  data_protobufs:
 
 # The commented out section below is an example of how to define a PostgreSQL
 # database that your application can use. `depends_on` tells Docker Compose to
