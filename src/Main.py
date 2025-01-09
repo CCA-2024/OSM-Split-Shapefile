@@ -1,4 +1,10 @@
-from Modules.OSMTools.Engine import OSMsplit
+from Modules.OSMTools.osmsplit      import OSMSplit
+from Modules.OSMTools.osmconverter  import OSMConverter
 
-Tool = OSMsplit()
-Tool.run()
+# RECORTANDO PROTOBUFs
+SplitTool       = OSMSplit()
+SplitTool.run()
+
+# CONVERTENDO *PBF TO *.OSM
+ConverterTool   = OSMConverter()
+ConverterTool.run()

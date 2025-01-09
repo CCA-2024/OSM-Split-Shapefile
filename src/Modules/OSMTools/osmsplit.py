@@ -1,12 +1,14 @@
-from Modules.Config.env import confiRun
+from Modules.Config.env import configRun
 from shapely.geometry import Polygon
 from Modules.UFs.Engine import UFGeo
+from bs4 import BeautifulSoup
 import geopandas as gpd
 from glob import glob
 import math
+import time
 import os
 
-class OSMsplit:
+class OSMSplit:
     """
     Objeto responsavel por recortar o protobuf do pais em estados
     isso diminui a sobrecarga de ram na hora de carregar a malha 
@@ -25,9 +27,8 @@ class OSMsplit:
         self.UFProcessor = UFGeo()
         self.PathGeoJsons = self.UFProcessor.execute()
     
-        self.protobufs = os.path.join(self.path_protobuf, '*.pbf')
-        for path in glob(self.protobufs):
-            os.system(f"rm -f {path}")
+        # DELET OLD FILES
+        for path in glob(os.path.join(self.path_protobufs, '*.pbf')): os.system(f"rm -f {path}")
     
     def Spliter(self, DF_GEOPANDAS, ncut: int = 1):
         """
@@ -83,26 +84,55 @@ class OSMsplit:
         if len(path_bufs) > 1: raise Warning(f"Lembre-se de manter somente um arquivo na pata {self.path_protobuf}, será processado somente o protobuf maior.")
         return max([[protobuf, os.path.getsize(protobuf)] for protobuf in glob(os.path.join(self.path_protobuf, "*.pbf"))], key=lambda x: x[1])[0]
     
+    def _get_types(self):
+        with open(os.path.join('osm2pgrouting', configRun["TYPE_MAP_OSM"]), 'r') as f:
+            data = f.read()
+        Bs_data = BeautifulSoup(data, "xml")
+        all_tags = {}
+        for tag in Bs_data.find_all('tag_name'):
+            name = tag.get('name')
+            all_tags[name] = []
+            for value in tag.find_all('tag_value'):
+                all_tags[name].append(value.get('name'))
+        return all_tags
+    
+    def _pre_run(self):
+        path_Protobuf = self._GetProtobuf()
+        base_path_tagbuf = os.path.join(os.path.dirname(path_Protobuf), "TAGBUF")
+        os.makedirs(base_path_tagbuf, exist_ok=True)
+        for path in glob(os.path.join(base_path_tagbuf, '*.*')): os.system(f"rm -f {path}")
+        path_protofile=os.path.join(os.path.dirname(path_Protobuf), "TAGBUF", "tag-filter-"+os.path.basename(path_Protobuf))
+        mytypes = " ".join([(f"w/{tag_name}="+",".join(tags_value)) for tag_name, tags_value in self._get_types().items()]).strip()
+        run = f"osmium tags-filter {path_Protobuf} {mytypes} --overwrite -o {path_protofile}".replace("\\","/").strip()
+        print(f"\nTAG-FILTER: {run}")
+        os.system(run)
+        time.sleep(2)
+        return path_protofile if os.path.exists(path_protofile) else None
+    
     def run(self):
-        path_UFs        = self._GetGeojsonUFs()
-        path_Protobuf   = self._GetProtobuf()
+        path_UFs            = self._GetGeojsonUFs()
+        path_Protobuf       = self._GetProtobuf()
+        path_protofile_pr   = self._pre_run()
+        path_Protobuf = path_Protobuf if path_protofile_pr == None else path_protofile_pr
         for GeojsonUF in path_UFs:
             out_file_name = os.path.splitext(os.path.basename(GeojsonUF))[0]
             path_protofile=f'PROTOBUF/PROTOBUFs/{out_file_name}.pbf'
             os.system(f"chmod +x {GeojsonUF}")
-            os.system(f"chmod +x {path_protofile}")
+            os.system(f"chmod +x {path_Protobuf}")
             run = f"osmium extract -p {GeojsonUF} {path_Protobuf} --overwrite -o {path_protofile}".replace("\\","/").strip()
-            print(f"\nRUNNING: {run}")
+            print(f"\nSPLITING: {run}")
             os.system(run)
-            filesize = (os.path.getsize(path_protofile)/1024)/1024
-            if filesize >= confiRun["SIZELIMIT"]:
-                self.keys_reprocess[out_file_name] = {"PATHGEOJSON": GeojsonUF, "FILESIZE": filesize, "PATHBUF": path_protofile, "ORIGINBUF": path_protofile}
+            if os.path.exists(path_protofile):
+                os.system(f"chmod +x {path_protofile}")
+                filesize = (os.path.getsize(path_protofile)/1024)/1024
+                if filesize >= configRun["SIZELIMIT"] and configRun["SIZELIMIT"] > 0:
+                    self.keys_reprocess[out_file_name] = {"PATHGEOJSON": GeojsonUF, "FILESIZE": filesize, "PATHBUF": path_protofile, "ORIGINBUF": path_protofile}
         if len(list(self.keys_reprocess.items())) > 0:
             self._Reprocess()
-        
+    
     def _Reprocess(self):
         for key, value in self.keys_reprocess.items():
-            ncut            = math.ceil(value["FILESIZE"]/confiRun["SIZELIMIT"]) 
+            ncut            = math.ceil(value["FILESIZE"]/configRun["SIZELIMIT"]) 
             DF_GEOPANDAS    = gpd.read_file(value["PATHGEOJSON"])
             DictSpliter     = self.Spliter(DF_GEOPANDAS, ncut=ncut)
             for partition, value2   in DictSpliter.items():
@@ -111,7 +141,7 @@ class OSMsplit:
                 path_protofile          = os.path.join(os.path.join(os.path.dirname(value["PATHBUF"]),      (key + "-Part" + str(partition)) + ".pbf"))
                 DF_GEOPANDAS_SPLITED.to_file(GeojsonUFSplited, driver='GeoJSON')
                 run = f"osmium extract -p {GeojsonUFSplited} {value['ORIGINBUF']} --overwrite -o {path_protofile}".replace("\\","/").strip()
-                print(f"\nReprocessing: {run}")
+                print(f"\nRE-SPLITING: {run}")
                 os.system(run)
             os.system(f"rm -f {value['PATHGEOJSON']}")
             os.system(f"rm -f {value['PATHBUF']}")

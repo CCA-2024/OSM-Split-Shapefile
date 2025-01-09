@@ -8,14 +8,24 @@
 # database or a cache. For examples, see the Awesome Compose repository:
 # https://github.com/docker/awesome-compose
 
-name: pbfspliter
+name: osmspliter
+version: '3.9'
 
 services:
   spliter:
     build:
       context: .
+      dockerfile: Dockerfile
     volumes:
       - ./.:/app/.:rw
+    command: >
+      bash -c "rm -rf osm2pgrouting &&
+               git clone https://github.com/pgRouting/osm2pgrouting.git && 
+               mkdir temp && 
+               cp ./osm2pgrouting/*.xml temp &&
+               rm -rf osm2pgrouting &&
+               mv temp osm2pgrouting &&
+               python Main.py"
 
 # The commented out section below is an example of how to define a PostgreSQL
 # database that your application can use. `depends_on` tells Docker Compose to

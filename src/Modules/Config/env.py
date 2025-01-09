@@ -3,6 +3,8 @@ import os
 
 load_dotenv()
 
-confiRun       = {
-    "SIZELIMIT":               eval(os.getenv("SIZELIMIT")),
+configRun       = {
+    "SIZELIMIT":    eval(os.getenv("SIZELIMIT")),
+    "PATHSAVE":     os.getenv("PATHSAVE"),
+    "TYPE_MAP_OSM": os.getenv("TYPE_MAP_OSM"),
 }

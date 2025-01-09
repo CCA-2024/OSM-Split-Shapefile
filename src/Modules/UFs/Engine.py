@@ -7,6 +7,7 @@ import os
 import re
 
 class UFGeo:
+    
     def __init__(self):
         self.base_path = 'Modules'
         self.module_path = 'UFs'
@@ -14,8 +15,7 @@ class UFGeo:
         for path in glob(self.geojsons):
             os.system(f"rm -f {path}")
         
-    @staticmethod
-    def fechar_geometria(geometry):
+    def fechar_geometria(self, geometry):
         """
         Verifica se a geometria é fechada. Se não for, fecha-a.
 
@@ -52,8 +52,10 @@ class UFGeo:
     def unzip_shapefile(self):
         """Descompacta arquivos ZIP contendo shapefiles."""
         zip_path = os.path.join(self.base_path, self.module_path, 'ZipFile', '*.zip')
+        extract_path = os.path.join(self.base_path, self.module_path, 'Shapfile', "*.*")
+        for path in [file for file in glob(self.geojsons) if '.metadata' not in file]:
+            os.system(f"rm -f {path}")
         with zipfile.ZipFile(glob(zip_path)[0], "r") as zip_ref:
-            extract_path = os.path.join(self.base_path, self.module_path, 'Shapfile')
             zip_ref.extractall(extract_path)
         return extract_path
 
@@ -110,9 +112,3 @@ class UFGeo:
 
         # Salvar como GeoJSON
         return self.save_as_geojson(processed_geojson_path)
-
-# Exemplo de uso
-# if __name__ == "__main__":
-
-#     processor = UFGeo()
-#     processor.execute()
