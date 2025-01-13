@@ -20,7 +20,7 @@ class OSMConverter:
         return glob(os.path.join(self.path_protobufs, "*.pbf"))
         
     def run(self):
-        os.system(f"chmod +x ./{self.path_bin}")
+        # os.system(f"chmod +x ./{self.path_bin}")
         for path_protobuf in self._get_protobufs():
             out_file_name = os.path.join(configRun["PATHSAVE"],f"{os.path.splitext(os.path.basename(path_protobuf))[0]}.osm")
             run = f"./{self.path_bin} {path_protobuf} --drop-author --drop-version --complete-ways --complete-multipolygons -o={out_file_name}"
