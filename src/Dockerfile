@@ -38,4 +38,5 @@ RUN apt update \
 && apt -f install \
 && dpkg --configure -a \
 && apt-get install -y osmium-tool \
+&& apt install libc6 \
 && apt install -y git
