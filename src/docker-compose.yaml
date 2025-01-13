@@ -31,7 +31,7 @@ services:
                cp ./osm2pgrouting/*.xml temp &&
                rm -rf osm2pgrouting &&
                mv temp osm2pgrouting &&
-               chmod +x ./Modules/OSMTools/bin/osmconvert64 &&
+               sudo chmod +x ./Modules/OSMTools/bin/osmconvert64 &&
                python Main.py"
 
 volumes:
