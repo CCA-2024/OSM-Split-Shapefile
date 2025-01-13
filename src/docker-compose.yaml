@@ -33,7 +33,7 @@ services:
                rm -rf osm2pgrouting &&
                mv temp osm2pgrouting &&
                su && apt update && apt list --upgradable && apt -f install && dpkg --configure -a && apt-get install osmium-tool &&
-               chmod +x ./Modules/OSMTools/bin/osmconvert64 &&
+               bash -c chmod +x ./Modules/OSMTools/bin/osmconvert64 &&
                python Main.py"
 
 volumes:
