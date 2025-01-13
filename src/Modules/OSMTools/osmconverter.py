@@ -7,7 +7,7 @@ class OSMConverter:
     def __init__(self):
         self.base_path      = 'Modules'
         self.folder_module  = 'OSMTools'
-        self.folder_bin     = 'Bin'
+        self.folder_bin     = 'bin'
         self.filename_bin   = 'osmconvert64'
         
         self.path_protobufs = os.path.join("PROTOBUF", "PROTOBUFs")
