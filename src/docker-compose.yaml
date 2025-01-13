@@ -22,6 +22,8 @@ services:
       - data_geojson:/app/src/Modules/UFs/GeoJsons
       - data_shapfile:/app/src/Modules/UFs/Shapfile
       - data_zipfile:/app/src/Modules/UFs/Zipfile
+    env_file:
+      - .env
     command: >
       bash -c "rm -rf osm2pgrouting &&
                git clone https://github.com/pgRouting/osm2pgrouting.git && 

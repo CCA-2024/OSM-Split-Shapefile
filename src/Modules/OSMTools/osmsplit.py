@@ -101,7 +101,7 @@ class OSMSplit:
         base_path_tagbuf = os.path.join(os.path.dirname(path_Protobuf), "TAGBUF")
         os.makedirs(base_path_tagbuf, exist_ok=True)
         for path in glob(os.path.join(base_path_tagbuf, '*.*')): os.system(f"rm -f {path}")
-        path_protofile=os.path.join(os.path.dirname(path_Protobuf), "TAGBUF", "tag-filter-"+os.path.basename(path_Protobuf))
+        path_protofile =os.path.join(os.path.dirname(path_Protobuf), "TAGBUF", "tag-filter-"+os.path.basename(path_Protobuf))
         mytypes = " ".join([(f"w/{tag_name}="+",".join(tags_value)) for tag_name, tags_value in self._get_types().items()]).strip()
         run = f"osmium tags-filter {path_Protobuf} {mytypes} --overwrite -o {path_protofile}".replace("\\","/").strip()
         print(f"\nTAG-FILTER: {run}")
