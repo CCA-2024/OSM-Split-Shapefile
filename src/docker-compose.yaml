@@ -22,6 +22,7 @@ services:
       - data_geojson:/app/src/Modules/UFs/GeoJsons
       - data_shapfile:/app/src/Modules/UFs/Shapfile
       - data_zipfile:/app/src/Modules/UFs/Zipfile
+      - data_osmconvert:/app/src/Modules/OSMTools/bin
     env_file:
       - .env
     command: >
@@ -31,7 +32,7 @@ services:
                cp ./osm2pgrouting/*.xml temp &&
                rm -rf osm2pgrouting &&
                mv temp osm2pgrouting &&
-               sudo chmod +x ./Modules/OSMTools/bin/osmconvert64 &&
+               chmod +x ./Modules/OSMTools/bin/osmconvert64 &&
                python Main.py"
 
 volumes:
@@ -40,6 +41,8 @@ volumes:
   data_protobuf:
   data_shapfile:
   data_zipfile:
+  data_osmconvert:
+
 
 # The commented out section below is an example of how to define a PostgreSQL
 # database that your application can use. `depends_on` tells Docker Compose to
