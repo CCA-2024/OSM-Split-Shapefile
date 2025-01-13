@@ -19,9 +19,9 @@ services:
     volumes:
       - data_protobuf:/app/src/PROTOBUF/PROTOBUF
       - data_osm:/app/src/OSMs
-      - data_geojson:src/Modules/UFs/GeoJsons
-      - data_shapfile:src/Modules/UFs/Shapfile
-      - data_zipfile:src/Modules/UFs/Zipfile
+      - data_geojson:/app/src/Modules/UFs/GeoJsons
+      - data_shapfile:/app/src/Modules/UFs/Shapfile
+      - data_zipfile:/app/src/Modules/UFs/Zipfile
     command: >
       bash -c "rm -rf osm2pgrouting &&
                git clone https://github.com/pgRouting/osm2pgrouting.git && 
