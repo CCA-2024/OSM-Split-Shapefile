@@ -36,7 +36,7 @@ services:
                su && apt update && apt list --upgradable && apt -f install && dpkg --configure -a && apt-get install osmium-tool &&
                cd src/Modules/OSMTools/bin/  &&
                ls &&
-               chmod +x ./osmconvert64 &&
+               chmod +x ./osmconvert64.sh &&
                cd .. &&
                cd .. &&
                cd .. &&
