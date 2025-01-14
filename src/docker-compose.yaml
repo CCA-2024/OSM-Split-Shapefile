@@ -17,6 +17,7 @@ services:
       context: .
       dockerfile: Dockerfile
     volumes:
+      - ./src:/app/src
       - data_protobuf:/app/src/PROTOBUF/PROTOBUF
       - data_osm:/app/src/OSMs
       - data_geojson:/app/src/Modules/UFs/GeoJsons
