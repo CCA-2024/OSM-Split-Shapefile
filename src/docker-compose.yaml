@@ -36,6 +36,7 @@ services:
                ls src &&
                ls Modules &&
                cd src/Modules/OSMTools/bin/  &&
+               ls  &&
                chmod +x ./osmconvert64 &&
                cd .. &&
                cd .. &&
