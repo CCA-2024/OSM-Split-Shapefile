@@ -17,7 +17,6 @@ services:
       context: .
       dockerfile: Dockerfile
     volumes:
-      - ./src:/app/src
       - data_protobuf:/app/src/PROTOBUF/PROTOBUF
       - data_osm:/app/src/OSMs
       - data_geojson:/app/src/Modules/UFs/GeoJsons
@@ -26,6 +25,7 @@ services:
       - data_osmconvert:/app/src/Modules/OSMTools/bin
     env_file:
       - .env
+    working_dir: /app/src
     command: >
       bash -c "rm -rf osm2pgrouting &&
                git clone https://github.com/pgRouting/osm2pgrouting.git && 
