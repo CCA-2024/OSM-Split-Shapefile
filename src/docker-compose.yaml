@@ -34,8 +34,7 @@ services:
                mv temp osm2pgrouting &&
                su && apt update && apt list --upgradable && apt -f install && dpkg --configure -a && apt-get install osmium-tool &&
                ls src &&
-               cd /src &&
-               cd /Modules/OSMTools/bin/osmconvert64  &&
+               cd /Modules/OSMTools/bin/  &&
                chmod +x ./osmconvert64 &&
                cd .. &&
                cd .. &&
