@@ -52,9 +52,11 @@ class UFGeo:
     def unzip_shapefile(self):
         """Descompacta arquivos ZIP contendo shapefiles."""
         zip_path = os.path.join(self.base_path, self.module_path, 'ZipFile', '*.zip')
-        extract_path = os.path.join(self.base_path, self.module_path, 'Shapfile')
+        extract_path = os.path.join(self.base_path, self.module_path, 'Shapfile',)
         for path in [file for file in glob(self.geojsons) if '.metadata' not in file]:
             os.system(f"rm -f {path}")
+            
+        print(glob(zip_path))
         with zipfile.ZipFile(glob(zip_path)[0], "r") as zip_ref:
             zip_ref.extractall(extract_path)
         return extract_path

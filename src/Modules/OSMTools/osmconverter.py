@@ -1,5 +1,6 @@
 from Modules.Config.env import configRun
 from glob import glob
+import subprocess
 import os
 
 class OSMConverter:
@@ -25,4 +26,6 @@ class OSMConverter:
             out_file_name = os.path.join(configRun["PATHSAVE"],f"{os.path.splitext(os.path.basename(path_protobuf))[0]}.osm")
             run = f"./{self.path_bin} {path_protobuf} --drop-author --drop-version --complete-ways --complete-multipolygons -o={out_file_name}"
             print(f"\nCONVERTER: {run}")
-            os.system(run)
+            result = subprocess.run(run.split(' '), capture_output=True, text=True, check=True)
+            print(result.stdout)
+            print(result.stderr)

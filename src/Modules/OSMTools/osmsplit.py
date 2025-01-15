@@ -7,6 +7,7 @@ from glob import glob
 import math
 import time
 import os
+import subprocess
 
 class OSMSplit:
     """
@@ -105,7 +106,9 @@ class OSMSplit:
         mytypes = " ".join([(f"w/{tag_name}="+",".join(tags_value)) for tag_name, tags_value in self._get_types().items()]).strip()
         run = f"osmium tags-filter {path_Protobuf} {mytypes} --overwrite -o {path_protofile}".replace("\\","/").strip()
         print(f"\nTAG-FILTER: {run}")
-        os.system(run)
+        result = subprocess.run(run.split(' '), capture_output=True, text=True, check=True)
+        print(result.stdout)
+        print(result.stderr)
         time.sleep(2)
         return path_protofile if os.path.exists(path_protofile) else None
     
@@ -121,7 +124,9 @@ class OSMSplit:
             os.system(f"chmod +x {path_Protobuf}")
             run = f"osmium extract -p {GeojsonUF} {path_Protobuf} --overwrite -o {path_protofile}".replace("\\","/").strip()
             print(f"\nSPLITING: {run}")
-            os.system(run)
+            result = subprocess.run(run.split(' '), capture_output=True, text=True, check=True)
+            print(result.stdout)
+            print(result.stderr)
             if os.path.exists(path_protofile):
                 os.system(f"chmod +x {path_protofile}")
                 filesize = (os.path.getsize(path_protofile)/1024)/1024
@@ -140,8 +145,10 @@ class OSMSplit:
                 GeojsonUFSplited        = os.path.join(os.path.join(os.path.dirname(value["PATHGEOJSON"]),  (key + "-Part" + str(partition)) + ".geojson"))
                 path_protofile          = os.path.join(os.path.join(os.path.dirname(value["PATHBUF"]),      (key + "-Part" + str(partition)) + ".pbf"))
                 DF_GEOPANDAS_SPLITED.to_file(GeojsonUFSplited, driver='GeoJSON')
-                run = f"osmium extract -p {GeojsonUFSplited} {value['ORIGINBUF']} --overwrite -o {path_protofile}".replace("\\","/").strip()
+                run = f"osmium extract -p {GeojsonUFSplited} {value['ORIGINBUF']} --overwrite --verbose -o {path_protofile}".replace("\\","/").strip()
                 print(f"\nRE-SPLITING: {run}")
-                os.system(run)
+                result = subprocess.run(run.split(' '), capture_output=True, text=True, check=True)
+                print(result.stdout)
+                print(result.stderr)
             os.system(f"rm -f {value['PATHGEOJSON']}")
             os.system(f"rm -f {value['PATHBUF']}")
