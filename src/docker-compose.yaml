@@ -8,7 +8,7 @@ services:
       context: .
       dockerfile: Dockerfile
     volumes:
-      - ./src/OSMs:/app/OSMs
+      - data-osm:/app/OSMs
     env_file:
       - .env
     command: >
